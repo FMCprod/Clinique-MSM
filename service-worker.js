@@ -1,4 +1,4 @@
-var CACHE_NAME = "regie-live-v19";
+var CACHE_NAME = "regie-live-v20";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -41,11 +41,12 @@ self.addEventListener("fetch", function (event) {
   if (event.request.method !== "GET" || url.origin !== self.location.origin) {
     return;
   }
-  // Réseau en priorité : les liens/mot de passe/PIN peuvent changer, on ne
-  // doit jamais rester bloqué sur une version mise en cache trop tôt.
-  // Le cache ne sert que de secours hors-ligne.
+  // Réseau en priorité, et on ignore le cache HTTP du navigateur
+  // (GitHub Pages renvoie "cache-control: max-age=600") : les liens/mot de
+  // passe/PIN peuvent changer, on ne doit jamais rester bloqué sur une
+  // version mise en cache trop tôt. Le cache ne sert que de secours hors-ligne.
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request.url, { cache: "no-store" })
       .then(function (response) {
         var copy = response.clone();
         caches.open(CACHE_NAME).then(function (cache) {
