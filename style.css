@@ -151,7 +151,6 @@ body::before {
 .card {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 18px;
   padding: 18px;
   background: rgba(30, 41, 59, 0.72);
@@ -172,6 +171,8 @@ body::before {
 }
 
 .card-body {
+  flex: 1;
+  min-width: 0;
   text-align: center;
 }
 
@@ -179,6 +180,15 @@ body::before {
   flex-shrink: 0;
   width: 64px;
   height: 64px;
+}
+
+.card-divider {
+  display: block;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 1px;
+  margin: 12px 0;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .icon-svg {
