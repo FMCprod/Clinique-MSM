@@ -1,8 +1,6 @@
 (function () {
   "use strict";
 
-  var LONG_PRESS_MS = 550;
-  var MOVE_TOLERANCE = 12;
   var ACCESS_PIN = "__ACCESS_PIN__";
   var UNLOCK_KEY = "streambox-unlocked";
 
@@ -59,14 +57,22 @@
     }, 1600);
   }
 
-  function legacyCopy(text) {
+  function copyText(text) {
+    // navigator.clipboard.writeText() est évité volontairement : sur Safari
+    // iOS en mode "app installée sur l'écran d'accueil", elle a été observée
+    // copier l'URL de la page elle-même au lieu du texte demandé quand le
+    // geste n'est pas reconnu comme pleinement "de confiance". execCommand
+    // sur un textarea est la méthode classique, fiable dans ce contexte.
     var el = document.createElement("textarea");
     el.value = text;
     el.style.position = "fixed";
+    el.style.top = "0";
+    el.style.left = "0";
     el.style.opacity = "0";
     document.body.appendChild(el);
     el.focus();
-    el.select();
+    el.setSelectionRange(0, text.length);
+
     try {
       document.execCommand("copy");
     } finally {
@@ -75,82 +81,24 @@
     return Promise.resolve();
   }
 
-  function copyText(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(text).catch(function () {
-        return legacyCopy(text);
-      });
-    }
-    return legacyCopy(text);
-  }
-
-  function setupCard(card) {
+  document.querySelectorAll(".card").forEach(function (card) {
     var url = card.getAttribute("data-url");
-    var copyValue = card.getAttribute("data-copy") || url;
-    var pressTimer = null;
-    var longPressFired = false;
-    var startX = 0;
-    var startY = 0;
-
-    function clearPressTimer() {
-      clearTimeout(pressTimer);
-      pressTimer = null;
-    }
-
-    function onPointerDown(e) {
-      longPressFired = false;
-      startX = e.clientX;
-      startY = e.clientY;
-      card.classList.add("is-pressed");
-      pressTimer = setTimeout(function () {
-        longPressFired = true;
-        card.classList.remove("is-pressed");
-        vibrate(15);
-      }, LONG_PRESS_MS);
-    }
-
-    function onPointerMove(e) {
-      if (!pressTimer) return;
-      var dx = e.clientX - startX;
-      var dy = e.clientY - startY;
-      if (Math.sqrt(dx * dx + dy * dy) > MOVE_TOLERANCE) {
-        clearPressTimer();
-        card.classList.remove("is-pressed");
-      }
-    }
-
-    function onPointerUp() {
-      card.classList.remove("is-pressed");
-      var wasLongPress = longPressFired;
-      clearPressTimer();
-      if (wasLongPress) {
-        // Doit rester synchrone dans ce gestionnaire : Safari iOS refuse
-        // silencieusement clipboard/execCommand si l'appel est différé
-        // (ex: dans le setTimeout du long press) hors du geste utilisateur.
-        copyText(copyValue).then(function () {
-          showToast("Lien copié");
-        });
-      } else {
-        window.open(url, "_blank", "noopener");
-      }
-    }
-
-    function onPointerCancel() {
-      card.classList.remove("is-pressed");
-      clearPressTimer();
-    }
-
-    card.addEventListener("pointerdown", onPointerDown);
-    card.addEventListener("pointermove", onPointerMove);
-    card.addEventListener("pointerup", onPointerUp);
-    card.addEventListener("pointercancel", onPointerCancel);
-    card.addEventListener("pointerleave", onPointerCancel);
-    card.addEventListener("contextmenu", function (e) {
-      e.preventDefault();
+    card.addEventListener("click", function () {
+      window.open(url, "_blank", "noopener");
     });
-  }
+  });
 
-  document.querySelectorAll(".card").forEach(setupCard);
+  document.querySelectorAll(".copy-btn").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var card = btn.closest(".card");
+      var value = card.getAttribute("data-copy") || card.getAttribute("data-url");
+      vibrate(15);
+      copyText(value).then(function () {
+        showToast("Lien copié");
+      });
+    });
+  });
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
