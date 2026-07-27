@@ -106,9 +106,6 @@
         longPressFired = true;
         card.classList.remove("is-pressed");
         vibrate(15);
-        copyText(copyValue).then(function () {
-          showToast("Lien copié");
-        });
       }, LONG_PRESS_MS);
     }
 
@@ -126,7 +123,14 @@
       card.classList.remove("is-pressed");
       var wasLongPress = longPressFired;
       clearPressTimer();
-      if (!wasLongPress) {
+      if (wasLongPress) {
+        // Doit rester synchrone dans ce gestionnaire : Safari iOS refuse
+        // silencieusement clipboard/execCommand si l'appel est différé
+        // (ex: dans le setTimeout du long press) hors du geste utilisateur.
+        copyText(copyValue).then(function () {
+          showToast("Lien copié");
+        });
+      } else {
         window.open(url, "_blank", "noopener");
       }
     }
