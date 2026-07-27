@@ -166,8 +166,7 @@ body::before {
   transition: background 0.15s ease, transform 0.1s ease;
 }
 
-.card:active,
-.card.is-pressed {
+.card:active {
   background: rgba(41, 64, 94, 0.8);
   transform: scale(0.98);
 }
@@ -198,6 +197,27 @@ body::before {
   margin: 6px 0 0;
   font-size: 15px;
   color: var(--text);
+}
+
+.copy-btn {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.copy-btn:active {
+  background: rgba(148, 163, 184, 0.28);
 }
 
 .toast {
