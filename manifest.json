@@ -1,6 +1,6 @@
 {
-  "name": "Régie Live",
-  "short_name": "Régie Live",
+  "name": "StreamBox & Me",
+  "short_name": "StreamBox & Me",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
