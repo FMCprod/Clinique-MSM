@@ -1,4 +1,4 @@
-var CACHE_NAME = "regie-live-v18";
+var CACHE_NAME = "regie-live-v19";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -41,18 +41,20 @@ self.addEventListener("fetch", function (event) {
   if (event.request.method !== "GET" || url.origin !== self.location.origin) {
     return;
   }
+  // Réseau en priorité : les liens/mot de passe/PIN peuvent changer, on ne
+  // doit jamais rester bloqué sur une version mise en cache trop tôt.
+  // Le cache ne sert que de secours hors-ligne.
   event.respondWith(
-    caches.match(event.request).then(function (cached) {
-      return (
-        cached ||
-        fetch(event.request).then(function (response) {
-          var copy = response.clone();
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(event.request, copy);
-          });
-          return response;
-        })
-      );
-    })
+    fetch(event.request)
+      .then(function (response) {
+        var copy = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(event.request, copy);
+        });
+        return response;
+      })
+      .catch(function () {
+        return caches.match(event.request);
+      })
   );
 });
