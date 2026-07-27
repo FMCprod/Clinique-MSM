@@ -36,18 +36,9 @@ jobs:
           rsync -a --exclude '.git' --exclude '.github' --exclude '.claude' --exclude 'dist' ./ dist/
 
           replace() {
-            local token="$1"
-            local value="$2"
-            local file="$3"
-            python3 - "$token" "$value" "$file" <<'PY'
-import sys
-token, value, path = sys.argv[1], sys.argv[2], sys.argv[3]
-with open(path, "r", encoding="utf-8") as f:
-    content = f.read()
-content = content.replace(token, value)
-with open(path, "w", encoding="utf-8") as f:
-    f.write(content)
-PY
+            local token="$1" value="$2" file="$3" escaped
+            escaped=$(printf '%s' "$value" | sed -e 's/[\&|]/\\&/g')
+            sed -i "s|$token|$escaped|g" "$file"
           }
 
           replace "__VMIX_URL__" "$VMIX_URL" dist/index.html
