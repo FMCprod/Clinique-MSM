@@ -93,13 +93,10 @@
       e.stopPropagation();
       var card = btn.closest(".card");
       var value = card.getAttribute("data-copy") || card.getAttribute("data-url");
-      // Résout un chemin relatif nu (ex: "invite.html") en URL absolue : le
-      // lien copié est partagé en dehors de l'app (SMS/email), il doit donc
-      // être utilisable tel quel. On ne touche pas aux valeurs qui sont déjà
-      // une URL absolue ou un message multi-lignes (ex: carte Live).
-      if (!/^[a-z][a-z0-9+.-]*:/i.test(value) && value.indexOf("\n") === -1) {
-        value = new URL(value, window.location.href).href;
-      }
+      // {{INVITE_LINK}} est remplacé par l'URL absolue de la page-relais : le
+      // texte copié est partagé en dehors de l'app (SMS/email), le lien doit
+      // donc être utilisable tel quel, pas seulement depuis ce site.
+      value = value.replace("{{INVITE_LINK}}", new URL("invite.html", window.location.href).href);
       vibrate(15);
       copyText(value).then(function () {
         showToast("Lien copié");
