@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+<title>StreamBox & Me</title>
+<meta name="theme-color" content="#0f172a" />
+<meta name="robots" content="noindex" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="lock-screen">
+  <div class="lock-card">
+    <h2>Rejoindre l'appel</h2>
+    <p>Entre le code pour continuer</p>
+    <input id="gate-input" class="lock-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="6" />
+    <p id="gate-error" class="lock-error"></p>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var ACCESS_PIN = "__ACCESS_PIN__";
+  var VMIX_URL = "__VMIX_URL__";
+
+  var input = document.getElementById("gate-input");
+  var error = document.getElementById("gate-error");
+
+  function vibrate(ms) {
+    if (navigator.vibrate) {
+      navigator.vibrate(ms);
+    }
+  }
+
+  input.addEventListener("input", function () {
+    error.textContent = "";
+    if (input.value.length === 6) {
+      if (input.value === ACCESS_PIN) {
+        window.location.replace(VMIX_URL);
+      } else {
+        error.textContent = "Code incorrect";
+        vibrate(20);
+        input.value = "";
+      }
+    }
+  });
+
+  setTimeout(function () {
+    input.focus();
+  }, 50);
+})();
+</script>
+</body>
+</html>
