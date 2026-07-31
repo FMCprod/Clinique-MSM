@@ -93,6 +93,11 @@ body::before {
   font-family: inherit;
 }
 
+.lock-input--password {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
 .lock-input:focus {
   outline: none;
   border-color: rgba(148, 163, 184, 0.6);
