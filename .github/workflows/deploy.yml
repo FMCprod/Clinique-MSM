@@ -49,7 +49,7 @@ jobs:
           replace "__CHAT_URL__" "$CHAT_URL" dist/index.html
           replace "__HELP_PHONE__" "$HELP_PHONE" dist/index.html
           replace "__ACCESS_PIN__" "$ACCESS_PIN" dist/app.js
-          replace "__ACCESS_PIN__" "$ACCESS_PIN" dist/invite.html
+          replace "__LIVE_PASSWORD__" "$LIVE_PASSWORD" dist/invite.html
           replace "__VMIX_URL__" "$VMIX_URL" dist/invite.html
 
       - name: Upload Pages artifact
