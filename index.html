@@ -61,4 +61,113 @@ Mot de passe : __LIVE_PASSWORD__">
           <path d="M9 46 L9 36 Q9 25 22 25 Q35 25 35 36 L35 46 Z" fill="url(#glassCam)" />
         </svg>
       </div>
-      <span class="card-d
+      <span class="card-divider"></span>
+      <div class="card-body">
+        <h2>Inviter une personne à vous rejoindre</h2>
+        <p class="card-password">Mot de passe : <strong>__LIVE_PASSWORD__</strong></p>
+        <button class="copy-btn" type="button">Copier le lien</button>
+      </div>
+    </section>
+
+    <section class="card card--live" data-url="__LIVE_URL__" data-copy="Voici le lien du live : __LIVE_URL__
+Mot de passe : __LIVE_PASSWORD__">
+      <div class="card-icon">
+        <svg class="icon-svg" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="backLive" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6f9bff" />
+              <stop offset="55%" stop-color="#3358e0" />
+              <stop offset="100%" stop-color="#0d1440" />
+            </linearGradient>
+            <linearGradient id="glassLive" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08" />
+            </linearGradient>
+            <clipPath id="clipLive">
+              <circle cx="22" cy="34" r="18" />
+            </clipPath>
+            <filter id="blurLive" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.4" />
+            </filter>
+          </defs>
+          <rect x="22" y="4" width="34" height="34" rx="10" fill="url(#backLive)" />
+          <path d="M48 8 l1.6 3.6 3.6 1.6 -3.6 1.6 -1.6 3.6 -1.6 -3.6 -3.6 -1.6 3.6 -1.6z" fill="#ffffff" opacity="0.8" />
+          <g clip-path="url(#clipLive)">
+            <rect x="22" y="4" width="34" height="34" rx="10" fill="url(#backLive)" filter="url(#blurLive)" />
+          </g>
+          <circle cx="22" cy="34" r="18" fill="url(#glassLive)" />
+          <g clip-path="url(#clipLive)">
+            <circle cx="15" cy="41" r="3.6" fill="#ffffff" />
+            <path d="M15 34 A7 7 0 0 1 22 41" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" opacity="0.95" />
+            <path d="M15 28 A13 13 0 0 1 28 41" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" opacity="0.6" />
+            <path d="M15 22 A19 19 0 0 1 34 41" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" opacity="0.35" />
+          </g>
+        </svg>
+      </div>
+      <span class="card-divider"></span>
+      <div class="card-body">
+        <h2>Live</h2>
+        <p class="card-password">Mot de passe : <strong>__LIVE_PASSWORD__</strong></p>
+        <button class="copy-btn" type="button">Copier le lien</button>
+      </div>
+    </section>
+
+    <section class="card card--chat" data-url="__CHAT_URL__" data-copy="__CHAT_URL__">
+      <div class="card-icon">
+        <svg class="icon-svg" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="backChat" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6f9bff" />
+              <stop offset="55%" stop-color="#3358e0" />
+              <stop offset="100%" stop-color="#0d1440" />
+            </linearGradient>
+            <linearGradient id="glassChat" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08" />
+            </linearGradient>
+            <clipPath id="clipChat">
+              <rect x="6" y="16" width="38" height="26" rx="10" />
+              <path d="M16 42 L11 54 L24 42 Z" />
+            </clipPath>
+            <filter id="blurChat" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.4" />
+            </filter>
+          </defs>
+          <rect x="22" y="4" width="34" height="34" rx="10" fill="url(#backChat)" />
+          <path d="M48 8 l1.6 3.6 3.6 1.6 -3.6 1.6 -1.6 3.6 -1.6 -3.6 -3.6 -1.6 3.6 -1.6z" fill="#ffffff" opacity="0.8" />
+          <g clip-path="url(#clipChat)">
+            <rect x="22" y="4" width="34" height="34" rx="10" fill="url(#backChat)" filter="url(#blurChat)" />
+          </g>
+          <path d="M16 42 L11 54 L24 42 Z" fill="url(#glassChat)" />
+          <rect x="6" y="16" width="38" height="26" rx="10" fill="url(#glassChat)" />
+          <circle cx="16" cy="29" r="2.3" fill="#ffffff" />
+          <circle cx="25" cy="29" r="2.3" fill="#ffffff" />
+          <circle cx="34" cy="29" r="2.3" fill="#ffffff" />
+        </svg>
+      </div>
+      <span class="card-divider"></span>
+      <div class="card-body">
+        <h2>Chat</h2>
+      </div>
+    </section>
+  </main>
+
+  <div class="help-wrap">
+    <a class="help-btn" href="tel:__HELP_PHONE__">Besoin d'aide ?</a>
+  </div>
+
+  <div class="help-wrap">
+    <button id="refresh-btn" class="refresh-btn" type="button" aria-label="Rafraîchir">
+      <svg class="refresh-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 11A8 8 0 1 0 18.3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        <path d="M20 5v6h-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="toast" class="toast"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
