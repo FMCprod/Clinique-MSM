@@ -1,7 +1,8 @@
-var CACHE_NAME = "regie-live-v22";
+var CACHE_NAME = "regie-live-v25";
 var APP_SHELL = [
   "./",
   "./index.html",
+  "./invite.html",
   "./style.css",
   "./app.js",
   "./manifest.json",
@@ -41,21 +42,25 @@ self.addEventListener("fetch", function (event) {
   if (event.request.method !== "GET" || url.origin !== self.location.origin) {
     return;
   }
-  // Réseau en priorité, et on ignore le cache HTTP du navigateur
-  // (GitHub Pages renvoie "cache-control: max-age=600") : les liens/mot de
-  // passe/PIN peuvent changer, on ne doit jamais rester bloqué sur une
-  // version mise en cache trop tôt. Le cache ne sert que de secours hors-ligne.
+  // "Stale-while-revalidate" : on répond tout de suite avec la version en
+  // cache si elle existe (ouverture instantanée), pendant qu'on va chercher
+  // une version fraîche en arrière-plan (en ignorant le cache HTTP du
+  // navigateur, GitHub Pages renvoie "cache-control: max-age=600") pour la
+  // prochaine ouverture. On ne reste ainsi jamais bloqué plus d'une session
+  // sur une version mise en cache trop tôt, sans payer le réseau à chaque fois.
   event.respondWith(
-    fetch(event.request.url, { cache: "no-store" })
-      .then(function (response) {
-        var copy = response.clone();
-        caches.open(CACHE_NAME).then(function (cache) {
-          cache.put(event.request, copy);
+    caches.match(event.request).then(function (cached) {
+      var network = fetch(event.request.url, { cache: "no-store" })
+        .then(function (response) {
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, response.clone());
+          });
+          return response;
+        })
+        .catch(function () {
+          return cached;
         });
-        return response;
-      })
-      .catch(function () {
-        return caches.match(event.request);
-      })
+      return cached || network;
+    })
   );
 });
