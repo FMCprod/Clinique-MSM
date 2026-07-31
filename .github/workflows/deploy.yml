@@ -24,7 +24,6 @@ jobs:
       - name: Inject secrets into a deployable copy
         env:
           VMIX_URL: ${{ secrets.VMIX_URL }}
-          VMIX_PASSWORD: ${{ secrets.VMIX_PASSWORD }}
           LIVE_URL: ${{ secrets.LIVE_URL }}
           LIVE_PASSWORD: ${{ secrets.LIVE_PASSWORD }}
           CHAT_URL: ${{ secrets.CHAT_URL }}
@@ -43,7 +42,6 @@ jobs:
           }
 
           replace "__VMIX_URL__" "$VMIX_URL" dist/index.html
-          replace "__VMIX_PASSWORD__" "$VMIX_PASSWORD" dist/index.html
           replace "__LIVE_URL__" "$LIVE_URL" dist/index.html
           replace "__LIVE_PASSWORD__" "$LIVE_PASSWORD" dist/index.html
           replace "__CHAT_URL__" "$CHAT_URL" dist/index.html
