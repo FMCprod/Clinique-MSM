@@ -14,8 +14,11 @@
 <div class="lock-screen">
   <div class="lock-card">
     <h2>Rejoindre l'appel</h2>
-    <p>Entre le code pour continuer</p>
-    <input id="gate-input" class="lock-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="6" />
+    <p>Entre le mot de passe du live pour continuer</p>
+    <form id="gate-form">
+      <input id="gate-input" class="lock-input lock-input--password" type="text" inputmode="numeric" autocomplete="off" />
+      <button type="submit" class="copy-btn" style="margin-top: 14px;">Valider</button>
+    </form>
     <p id="gate-error" class="lock-error"></p>
   </div>
 </div>
@@ -24,9 +27,10 @@
 (function () {
   "use strict";
 
-  var ACCESS_PIN = "__ACCESS_PIN__";
+  var LIVE_PASSWORD = "__LIVE_PASSWORD__";
   var VMIX_URL = "__VMIX_URL__";
 
+  var form = document.getElementById("gate-form");
   var input = document.getElementById("gate-input");
   var error = document.getElementById("gate-error");
 
@@ -36,16 +40,16 @@
     }
   }
 
-  input.addEventListener("input", function () {
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
     error.textContent = "";
-    if (input.value.length === 6) {
-      if (input.value === ACCESS_PIN) {
-        window.location.replace(VMIX_URL);
-      } else {
-        error.textContent = "Code incorrect";
-        vibrate(20);
-        input.value = "";
-      }
+    if (input.value === LIVE_PASSWORD) {
+      window.location.replace(VMIX_URL);
+    } else {
+      error.textContent = "Mot de passe incorrect";
+      vibrate(20);
+      input.value = "";
+      input.focus();
     }
   });
 
