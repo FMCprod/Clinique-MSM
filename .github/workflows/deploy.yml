@@ -49,6 +49,7 @@ jobs:
           replace "__ACCESS_PIN__" "$ACCESS_PIN" dist/app.js
           replace "__LIVE_PASSWORD__" "$LIVE_PASSWORD" dist/invite.html
           replace "__VMIX_URL__" "$VMIX_URL" dist/invite.html
+          replace "__LIVE_URL__" "$LIVE_URL" dist/invite.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
