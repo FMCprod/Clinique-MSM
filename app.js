@@ -103,10 +103,12 @@
       e.stopPropagation();
       var card = btn.closest(".card");
       var value = card.getAttribute("data-copy") || card.getAttribute("data-url");
-      // {{INVITE_LINK}} est remplacé par l'URL absolue de la page-relais : le
-      // texte copié est partagé en dehors de l'app (SMS/email), le lien doit
-      // donc être utilisable tel quel, pas seulement depuis ce site.
+      // {{INVITE_LINK}}/{{LIVE_LINK}} sont remplacés par l'URL absolue du
+      // même portail de mot de passe (invite.html), vers vMix ou vers le
+      // Live selon le paramètre : le texte copié est partagé en dehors de
+      // l'app (SMS/email), le lien doit donc être utilisable tel quel.
       value = value.replace("{{INVITE_LINK}}", new URL("invite.html", window.location.href).href);
+      value = value.replace("{{LIVE_LINK}}", new URL("invite.html?to=live", window.location.href).href);
       vibrate(15);
       copyText(value).then(function () {
         showToast("Lien copié");
