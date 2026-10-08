@@ -13,7 +13,7 @@
 <body>
 <div class="lock-screen">
   <div class="lock-card">
-    <h2>Rejoindre l'appel</h2>
+    <h2 id="gate-title">Rejoindre l'appel</h2>
     <p>Entre le mot de passe du live pour continuer</p>
     <form id="gate-form">
       <input id="gate-input" class="lock-input lock-input--password" type="text" inputmode="numeric" autocomplete="off" />
@@ -29,6 +29,16 @@
 
   var LIVE_PASSWORD = "__LIVE_PASSWORD__";
   var VMIX_URL = "__VMIX_URL__";
+  var LIVE_URL = "__LIVE_URL__";
+
+  // Cette page sert de portail pour deux destinations : l'appel vMix (par
+  // défaut) et le Live Vimeo (?to=live). Même mot de passe, même logique,
+  // on évite de dupliquer le portail dans un second fichier.
+  var isLive = new URLSearchParams(window.location.search).get("to") === "live";
+  var target = isLive ? LIVE_URL : VMIX_URL;
+  if (isLive) {
+    document.getElementById("gate-title").textContent = "Accéder au Live";
+  }
 
   var form = document.getElementById("gate-form");
   var input = document.getElementById("gate-input");
@@ -44,7 +54,7 @@
     e.preventDefault();
     error.textContent = "";
     if (input.value === LIVE_PASSWORD) {
-      window.location.replace(VMIX_URL);
+      window.location.replace(target);
     } else {
       error.textContent = "Mot de passe incorrect";
       vibrate(20);
