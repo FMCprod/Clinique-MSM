@@ -1,4 +1,4 @@
-var CACHE_NAME = "regie-live-v29";
+var CACHE_NAME = "regie-live-v30";
 var APP_SHELL = [
   "./",
   "./index.html",
